@@ -78,15 +78,8 @@ export default function RecordList() {
         {(Object.keys(counts) as Array<keyof typeof counts>).map((status) => (
           <div
             key={status}
-            className="
-              rounded-lg border bg-card/50 
-              p-4 sm:p-5 
-              flex flex-col items-center justify-center 
-              capitalize 
-              shadow-sm 
-              hover:shadow-md hover:bg-card 
-              transition-all
-            "
+            className="rounded-lg border bg-card/50 p-4 sm:p-5 flex flex-col items-center justify-center capitalize shadow-sm hover:shadow-md hover:bg-card transition-all"
+
           >
             <span className="text-xs sm:text-sm text-muted-foreground tracking-wide">
               {status.replace("_", " ")}

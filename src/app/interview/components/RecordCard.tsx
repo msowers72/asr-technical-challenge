@@ -43,7 +43,7 @@ export default function RecordCard({ record, onSelect }: RecordCardProps) {
           <CardTitle className="text-base sm:text-lg tracking-tight">
             {record.name}
           </CardTitle>
-          <CardDescription className="text-xs sm:text-sm ">
+          <CardDescription className="text-xs sm:text-sm">
             {record.description}
           </CardDescription>
         </div>
