@@ -36,30 +36,32 @@ const statusToVariant: Record<
 
 export default function RecordCard({ record, onSelect }: RecordCardProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-sm transition-shadow">
+    <Card className="overflow-hidden hover:shadow-sm transition-shadow h-full flex flex-col">
+      
       <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b">
         <div>
           <CardTitle className="text-base sm:text-lg tracking-tight">
             {record.name}
           </CardTitle>
-          <CardDescription className="text-xs sm:text-sm">
+          <CardDescription className="text-xs sm:text-sm ">
             {record.description}
           </CardDescription>
         </div>
         <CardAction>
-          <Badge variant={statusToVariant[record.status]}>
+          <Badge variant={statusToVariant[record.status]}
+        >
             {record.status}
           </Badge>
         </CardAction>
       </CardHeader>
       {record.note && (
-        <CardContent>
-          <p className="text-xs sm:text-sm text-muted-foreground">
+        <CardContent className="min-h-[100px]">
+          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-4">
             Note: {record.note}
           </p>
         </CardContent>
       )}
-      <CardFooter className="border-t pt-4 flex justify-end">
+      <CardFooter className="border-t pt-4 flex justify-end mt-auto">
         <Button variant="secondary" onClick={() => onSelect(record)}>
           Review
         </Button>
