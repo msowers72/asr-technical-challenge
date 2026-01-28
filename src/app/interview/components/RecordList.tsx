@@ -34,7 +34,7 @@ export default function RecordList() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-        <div>
+        <div className="mb-4">
           <h2 className="text-2xl font-semibold tracking-tight mb-1">
             Records
           </h2>
