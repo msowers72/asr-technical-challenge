@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-/**
+ /**
  * Landing page for the interview application. It introduces the context
  * and outlines both phases of the exercise. Candidates can navigate to the interview
  * task via the call to action.

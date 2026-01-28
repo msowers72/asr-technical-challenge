@@ -19,6 +19,6 @@ export default function InterviewPage() {
         </p>
         <RecordList />
       </div>
-     </RecordsProvider>
+    </RecordsProvider>
   );
 }
