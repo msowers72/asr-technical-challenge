@@ -42,17 +42,20 @@ export default function RecordList() {
             {records.length} total • {display.length} showing
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
+          <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-56">
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-sm font-medium text-muted-foreground mb-1">
               Filter by status
             </label>
             <select
               value={fltr}
               onChange={(e) =>
                 setFltr(e.target.value as "all" | RecordItem["status"])
+                
               }
-              className="w-full border rounded-md p-2 text-sm bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="w-full rounded-md border bg-card p-2 text-sm capitalize shadow-sm transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+
             >
               <option value="all">all</option>
               <option value="pending">pending</option>
@@ -60,6 +63,7 @@ export default function RecordList() {
               <option value="flagged">flagged</option>
               <option value="needs_revision">needs_revision</option>
             </select>
+          </div>
           </div>
           <Button variant="ghost" onClick={() => refresh()} disabled={loading}>
             Reload
