@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRecords } from "../context/RecordsContext";
+
 
 import {
   Dialog,
@@ -39,6 +41,10 @@ export default function RecordDetailDialog({
 }: RecordDetailDialogProps) {
   const [status, setStatus] = useState<RecordStatus>(record.status);
   const [note, setNote] = useState<string>(record.note ?? "");
+  const { updateRecord } = useRecords();
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const statusOptions: RecordStatus[] = [
     "pending",
     "approved",
@@ -91,11 +97,41 @@ export default function RecordDetailDialog({
             </p>
           </div>
         </div>
+        {error && (
+          <p className="text-sm text-destructive mt-2">
+            {error}
+          </p>
+        )}
+
         <DialogFooter className="mt-6">
-          <Button variant="secondary" onClick={() => onClose()}>
-            Close
-          </Button>
-          <Button variant="default">Save</Button>
+    <Button
+      variant="default"
+      disabled={saving}
+      onClick={async () => {
+        setError(null);
+
+        // Validation rules
+        const needsNote = status === "flagged" || status === "needs_revision";
+        if (needsNote && note.trim() === "") {
+          setError("A note is required for flagged or needs revision.");
+          return;
+        }
+
+        try {
+          setSaving(true);
+          await updateRecord(record.id, { status, note });
+          onClose(); // close only on success
+        } catch {
+          setError("Failed to save changes.");
+        } finally {
+          setSaving(false);
+        }
+      }}
+    >
+      {saving ? "Saving..." : "Save"}
+  </Button>
+
+          
         </DialogFooter>
       </DialogContent>
     </Dialog>
