@@ -9,6 +9,8 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { RecordItem, RecordStatus, RecordHistoryEntry } from '../types';
+import { fetchRecords, updateRecord as apiUpdateRecord } from '../services/recordsService';
+
 
 interface RecordsContextValue {
   records: RecordItem[];
@@ -41,10 +43,10 @@ interface RecordsContextValue {
 const RecordsContext = createContext<RecordsContextValue | undefined>(undefined);
 
 export function RecordsProvider({ children }: { children: React.ReactNode }) {
-  const [data, setData] = useState<RecordItem[]>([]);
-  const [busy, setBusy] = useState<boolean>(false);
-  const [err, setErr] = useState<string | null>(null);
-  const [log, setLog] = useState<RecordHistoryEntry[]>([]);
+  const [records, setRecords] = useState<RecordItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [history, setHistory] = useState<RecordHistoryEntry[]>([]);
 
   const loadData = useCallback(async () => {
     setBusy(true);
