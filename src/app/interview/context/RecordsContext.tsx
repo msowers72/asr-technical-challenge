@@ -67,22 +67,22 @@ export function RecordsProvider({ children }: { children: React.ReactNode }) {
     loadData();
   }, [loadData]);
 
-  const doUpdate = useCallback(async (id: string, updates: { status?: RecordStatus; note?: string }) => {
-    setErr(null);
+const doUpdate = useCallback(
+  async (id: string, updates: { status?: RecordStatus; note?: string }) => {
+    setError(null);
     try {
-      const response = await fetch('/api/mock/records', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, ...updates }),
-      });
-      if (!response.ok) {
-        throw new Error(`Failed to update record: ${response.statusText}`);
-      }
-      const updated = (await response.json()) as RecordItem;
-      setData((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
+      const updated = await apiUpdateRecord({ id, ...updates });
 
-      const prevRecord = data.find((r) => r.id === id);
-      if (prevRecord && updates.status && prevRecord.status !== updates.status) {
+      setRecords(prev =>
+        prev.map(r => (r.id === updated.id ? updated : r))
+      );
+
+      const prevRecord = records.find(r => r.id === id);
+      if (
+        prevRecord &&
+        updates.status &&
+        prevRecord.status !== updates.status
+      ) {
         const entry: RecordHistoryEntry = {
           id,
           previousStatus: prevRecord.status,
@@ -90,14 +90,17 @@ export function RecordsProvider({ children }: { children: React.ReactNode }) {
           note: updates.note,
           timestamp: new Date().toISOString(),
         };
-        setLog((prevHist) => [...prevHist, entry]);
+        setHistory(prevHist => [...prevHist, entry]);
       }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      setErr(message);
-      throw error;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      setError(message);
+      throw err;
     }
-  }, [data]);
+  },
+  [records]
+);
+
 
   const reLoad = useCallback(async () => {
     await loadData();
