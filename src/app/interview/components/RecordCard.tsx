@@ -28,7 +28,7 @@ const statusToVariant: Record<
   RecordItem["status"],
   NonNullable<VariantProps<typeof badgeVariants>["variant"]>
 > = {
-     pending: "secondary",
+  pending: "secondary",
   approved: "default",
   flagged: "destructive",
   needs_revision: "destructive",
