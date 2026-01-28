@@ -28,7 +28,8 @@ export default function RecordList() {
     counts[item.status] += 1;
   });
 
-  const display = records;
+  const display = fltr === "all" ? records : records.filter((r) => r.status === fltr);
+
 
   return (
     <div className="space-y-6">
