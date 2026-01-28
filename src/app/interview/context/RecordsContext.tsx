@@ -49,22 +49,19 @@ export function RecordsProvider({ children }: { children: React.ReactNode }) {
   const [history, setHistory] = useState<RecordHistoryEntry[]>([]);
 
   const loadData = useCallback(async () => {
-    setBusy(true);
-    setErr(null);
-    try {
-      const response = await fetch('/api/mock/records');
-      if (!response.ok) {
-        throw new Error(`Failed to load records: ${response.statusText}`);
-      }
-      const incoming = (await response.json()) as RecordItem[];
-      setData(incoming);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      setErr(message);
-    } finally {
-      setBusy(false);
-    }
-  }, []);
+  setLoading(true);
+  setError(null);
+  try {
+    const incoming = await fetchRecords();
+    setRecords(incoming);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    setError(message);
+  } finally {
+    setLoading(false);
+  }
+}, []);
+
 
   useEffect(() => {
     loadData();
