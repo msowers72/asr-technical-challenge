@@ -70,36 +70,40 @@ export function RecordsProvider({ children }: { children: React.ReactNode }) {
 const doUpdate = useCallback(
   async (id: string, updates: { status?: RecordStatus; note?: string }) => {
     setError(null);
+
     try {
       const updated = await apiUpdateRecord({ id, ...updates });
 
-      setRecords(prev =>
-        prev.map(r => (r.id === updated.id ? updated : r))
-      );
+      setRecords(prev => {
+        const prevRecord = prev.find(r => r.id === id);
 
-      const prevRecord = records.find(r => r.id === id);
-      if (
-        prevRecord &&
-        updates.status &&
-        prevRecord.status !== updates.status
-      ) {
-        const entry: RecordHistoryEntry = {
-          id,
-          previousStatus: prevRecord.status,
-          newStatus: updates.status,
-          note: updates.note,
-          timestamp: new Date().toISOString(),
-        };
-        setHistory(prevHist => [...prevHist, entry]);
-      }
+        // Append history entry if status changed
+        if (
+          prevRecord &&
+          updates.status &&
+          prevRecord.status !== updates.status
+        ) {
+          const entry: RecordHistoryEntry = {
+            id,
+            previousStatus: prevRecord.status,
+            newStatus: updates.status,
+            note: updates.note,
+            timestamp: new Date().toISOString(),
+          };
+          setHistory(prevHist => [...prevHist, entry]);
+        }
+
+        return prev.map(r => (r.id === updated.id ? updated : r));
+      });
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Unknown error';
+      const message = err instanceof Error ? err.message : "Unknown error";
       setError(message);
       throw err;
     }
   },
-  [records]
+  []
 );
+
 
 
   const reLoad = useCallback(async () => {
