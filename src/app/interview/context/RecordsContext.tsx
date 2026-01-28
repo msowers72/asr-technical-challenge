@@ -110,15 +110,17 @@ const doUpdate = useCallback(
   setHistory([]);
 }, []);
 
-  const value = {
-    records: data,
-    loading: busy,
-    error: err,
-    updateRecord: doUpdate,
-    refresh: reLoad,
-    history: log,
-    clearHistory: purgeLog,
-  };
+ const value: RecordsContextValue = {
+  records,
+  loading,
+  error,
+  updateRecord: doUpdate,
+  refresh: reLoad, // or `refresh` if you renamed it
+  history,
+  clearHistory: purgeLog, // or `purgeHistory` if you renamed it
+};
+
+
   return <RecordsContext.Provider value={value}>{children}</RecordsContext.Provider>;
 }
 
