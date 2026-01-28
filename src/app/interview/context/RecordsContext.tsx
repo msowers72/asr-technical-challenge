@@ -115,9 +115,9 @@ const doUpdate = useCallback(
   loading,
   error,
   updateRecord: doUpdate,
-  refresh: reLoad, // or `refresh` if you renamed it
+  refresh: reLoad, 
   history,
-  clearHistory: purgeLog, // or `purgeHistory` if you renamed it
+  clearHistory: purgeHistory, 
 };
 
 
