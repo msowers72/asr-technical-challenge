@@ -106,9 +106,9 @@ const doUpdate = useCallback(
     await loadData();
   }, [loadData]);
 
-  const purgeLog = useCallback(() => {
-    setLog([]);
-  }, []);
+ const purgeHistory = useCallback(() => {
+  setHistory([]);
+}, []);
 
   const value = {
     records: data,
